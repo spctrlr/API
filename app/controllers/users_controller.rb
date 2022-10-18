@@ -1,14 +1,7 @@
 class UsersController < ApplicationController
 
-  def index
-    @users = User.all
-
-    if @users
-      render json: { status: "SUCCESS", data: @users }, status: :ok
-    else
-      render json: @user.errors, status: :not_found
-    end
-  end
+  skip_before_action :authorized, only: [:create]
+  before_action :set_user, only: [:show, :destroy]
 
   def show
     @user = User.find(params[:id])
@@ -43,7 +36,7 @@ class UsersController < ApplicationController
   end
 
   def login
-    @user = User.find_by(username: user_params[:username])
+    @user = User.find_by(email: user_params[:email])
     if @user && @user.authenticate(user_params[:password])
       token = encode_token( {user_id: @user.id} )
       render json: { user: @user, jwt: token}, status: :ok
@@ -54,6 +47,10 @@ class UsersController < ApplicationController
 
   private
 
+  def set_user
+    @user = User.find(params[:id])
+  end
+  
   def user_params
     params.require(:user).permit(:username, :email, :password, :password_confirmation)
   end
