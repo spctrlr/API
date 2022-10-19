@@ -1,11 +1,8 @@
 class UsersController < ApplicationController
 
-  skip_before_action :authorized, only: [:create]
-  before_action :set_user, only: [:show, :destroy]
+  before_action :set_user, only: %i[ show update destroy ]
 
   def show
-    @user = User.find(params[:id])
-    
     if @user
       render json: { data: @user }, status: :ok
     else
@@ -14,22 +11,27 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.create(user_params)
+    @user = User.new(user_params)
 
-    if @user.valid?
+    if @user.save
       token = encode_token( {user_id: @user.id} )
-      render json: { user: @user, jwt: token}, status: :ok
+      render json: { user: @user, jwt: token}, status: :created
     else
       render json: 'Invalid username or password', status: :unprocessable_entity
     end
   end
 
-  # Not working
-  def edit
-    @user = User.find_by(id: params[:id])
-
+  def update
     if @user.update(user_params)
       render json: { message: 'User updates successfully', data: @user }, status: :ok
+    else
+      render json: { message: 'User not found' }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    if @user.destroy!
+      render json: { message: 'User was deleted successfully' }, status: :no_content
     else
       render json: { message: 'User not found' }, status: :not_found
     end
