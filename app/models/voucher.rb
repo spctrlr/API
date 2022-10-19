@@ -1,6 +1,8 @@
 class Voucher < ApplicationRecord
-  validates :balance, :currency, :expires_on, presence: true
+  validates :balance, presence: true
+  validates :currency, presence: true, length: { maximum: 5 }
   validates :secret_code, presence: true, uniqueness: true
 
-  belongs_to :user
+  # TESTING, should belong without option!
+  belongs_to :user, optional: true
 end
