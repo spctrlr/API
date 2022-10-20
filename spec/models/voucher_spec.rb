@@ -1,10 +1,13 @@
 require 'rails_helper'
 
+# fails because of voucher model: "belongs_to :user, 'optional: true'"
 RSpec.describe Voucher, type: :model do
-  subject { Voucher.create!(balance: 250.99, currency: 'USD', secret_code: 'super-secret-code',
-    expires_on: Date.today + 7.days, users_id: 5) }
+  subject { Voucher.create!(
+    balance: 250.99, 
+    currency: 'USD', 
+    secret_code: 'super-secret-code',
+    user_id: 1) }
 
-    # fail
     it "is valid with valid attributes" do
       expect(subject).to be_valid
     end
