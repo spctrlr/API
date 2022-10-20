@@ -2,9 +2,6 @@ require "rails_helper"
 
 RSpec.describe BrandsController, type: :routing do
   describe "routing" do
-    it "routes to #index" do
-      expect(get: "/brands").to route_to("brands#index")
-    end
 
     it "routes to #show" do
       expect(get: "/brands/1").to route_to("brands#show", id: "1")
