@@ -2,14 +2,16 @@ Rails.application.routes.draw do
 
   post '/login', to: 'users#login'
   
-  resources :users do
+  resources :users, only: [:show, :create, :update, :destroy] do
     resources :vouchers
   end
 
-  resources :brands  
+  resources :brands, only: [:show, :create, :update, :destroy] do
+    resources :products
+  end
 
   # resources :admin do
-  #   resources :users, :vouchers, :brands
+  #   resources :users, :vouchers, :brands, :products
   # end
 
 end
