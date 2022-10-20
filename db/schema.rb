@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_20_084812) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_20_110049) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,6 +24,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_20_084812) do
     t.index ["address"], name: "index_brands_on_address"
     t.index ["email"], name: "index_brands_on_email", unique: true
     t.index ["name"], name: "index_brands_on_name", unique: true
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "product_name", null: false
+    t.string "product_type", null: false
+    t.boolean "status", null: false
+    t.bigint "brand_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["brand_id"], name: "index_products_on_brand_id"
+    t.index ["product_name"], name: "index_products_on_product_name"
+    t.index ["product_type"], name: "index_products_on_product_type"
   end
 
   create_table "users", force: :cascade do |t|
@@ -46,5 +58,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_20_084812) do
     t.index ["user_id"], name: "index_vouchers_on_user_id"
   end
 
+  add_foreign_key "products", "brands"
   add_foreign_key "vouchers", "users"
 end
