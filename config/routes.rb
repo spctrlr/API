@@ -1,12 +1,15 @@
 Rails.application.routes.draw do
-  resources :users, only: [:index, :show, :create]
-  post "/login", to: "users#login"
-  put "/users/:id", to: "users#update"
-  resources :vouchers
 
+  post '/login', to: 'users#login'
+  
+  resources :users do
+    resources :vouchers
+  end
+
+  resources :brands  
 
   # resources :admin do
-  #   resources :users, :vouchers
+  #   resources :users, :vouchers, :brands
   # end
 
 end
