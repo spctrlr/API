@@ -72,7 +72,7 @@ RSpec.describe "Users", type: :request do
         }
       end
 
-      # fail, bcrypt, password => password_digest
+      # PASS, bcrypt: password => password_digest
       it "updates the requested user" do
         user = User.create! valid_attributes
         put user_url(user),
