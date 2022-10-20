@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     resources :products
   end
 
+  resources :orders
+
   # resources :admin do
   #   resources :users, :vouchers, :brands, :products
   # end
