@@ -1,29 +1,31 @@
 require 'rails_helper'
 
+# fail with: ActiveRecord::InvalidForeignKey: PG::ForeignKeyViolation: ERROR:
 RSpec.describe "/products", type: :request do
 
   let(:valid_attributes) do {
-    product_name:
-    product_type:
-    status:
-    brand_id:
+    product_name: "Wrangler",
+    product_type: "cawboy year",
+    status: "true",
+    brand_id: "1"
     }
   end
   
   let(:invalid_attributes) do {
-    skip("Add a hash of attributes invalid for your model")
+    product_name: "",
+    product_type: "",
+    status: "true",
+    brand_id: "1"
     }
   end
   
-  let(:valid_headers) do {
-    {}
-    }
-  end
+  let(:valid_headers) { {authorize: 'authorization-token'} }
+
   
   describe "GET /index" do
     it "renders a successful response" do
       Product.create! valid_attributes
-      get products_url, headers: valid_headers, as: :json
+      get brand_products_url, headers: valid_headers, as: :json
       expect(response).to be_successful
     end
   end

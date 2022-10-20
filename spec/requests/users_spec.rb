@@ -72,12 +72,15 @@ RSpec.describe "Users", type: :request do
         }
       end
 
+      # fail, bcrypt, password => password_digest
       it "updates the requested user" do
         user = User.create! valid_attributes
         put user_url(user),
               params: { user: new_attributes }, headers: valid_headers, as: :json
         user.reload
-        skip("Add assertions for updated state")
+        new_attributes.each_pair do |key, value|
+          expect(user[key]).to eq(value)
+        end
       end
 
       it "renders a JSON response with the user" do
