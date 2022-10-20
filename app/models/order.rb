@@ -6,4 +6,6 @@ class Order < ApplicationRecord
 
   belongs_to :voucher
   belongs_to :product
+  has_one :user, through: :vouchers
+  has_one :brand, through: :products
 end
