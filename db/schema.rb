@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_20_110049) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_20_191501) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,6 +24,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_20_110049) do
     t.index ["address"], name: "index_brands_on_address"
     t.index ["email"], name: "index_brands_on_email", unique: true
     t.index ["name"], name: "index_brands_on_name", unique: true
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.decimal "final_amount", precision: 6, scale: 2, null: false
+    t.string "currency", null: false
+    t.integer "quantity", null: false
+    t.boolean "status", null: false
+    t.bigint "voucher_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_orders_on_product_id"
+    t.index ["voucher_id"], name: "index_orders_on_voucher_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -58,6 +71,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_20_110049) do
     t.index ["user_id"], name: "index_vouchers_on_user_id"
   end
 
+  add_foreign_key "orders", "products"
+  add_foreign_key "orders", "vouchers"
   add_foreign_key "products", "brands"
   add_foreign_key "vouchers", "users"
 end
