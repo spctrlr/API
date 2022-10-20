@@ -7,5 +7,7 @@ class User < ApplicationRecord
   has_secure_password
   
   has_many :vouchers, dependent: :destroy
+  has_many :orders, through: :vouchers
   validates_associated :vouchers
+  validates_associated :orders
 end

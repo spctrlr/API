@@ -5,4 +5,5 @@ class Voucher < ApplicationRecord
 
   # TESTING, should belong without option!
   belongs_to :user, optional: true
+  has_one :order
 end

@@ -4,4 +4,5 @@ class Product < ApplicationRecord
 
   # TESTING, should belong without option!
   belongs_to :brand, optional: true
+  has_one :order
 end
