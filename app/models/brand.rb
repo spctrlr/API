@@ -4,6 +4,7 @@ class Brand < ApplicationRecord
   validates :email, confirmation: true, presence: true, uniqueness: true
 
   has_many :products, dependent: :destroy
+  validates_associated :products
   
   # belongs_to :admin
 end

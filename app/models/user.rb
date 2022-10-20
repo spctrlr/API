@@ -5,6 +5,7 @@ class User < ApplicationRecord
   validates :password_confirmation, confirmation: true, presence: true, length: { in: 6..20 }
 
   has_secure_password
+  
   has_many :vouchers, dependent: :destroy
   validates_associated :vouchers
 end
