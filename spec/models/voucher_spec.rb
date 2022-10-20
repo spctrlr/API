@@ -1,34 +1,41 @@
 require 'rails_helper'
 
-# fails with ActiveRecord::InvalidForeignKey:
 RSpec.describe Voucher, type: :model do
-  subject { Voucher.create!(
+  subject(:user) { User.create!(
+    username: "Test", 
+    email: "test@email.com", 
+    password: "test-pass",
+    password_confirmation: "test-pass") 
+  }
+
+  subject(:voucher) { Voucher.create!(
     balance: 250.99, 
     currency: 'USD', 
     secret_code: 'super-secret-code',
-    user_id: 1) }
+    user_id: user.id) 
+  }
 
-    it "is valid with valid attributes" do
-      expect(subject).to be_valid
+    it "valid with valid attributes" do
+      expect(voucher).to be_valid
     end
 
-    it "is valid with nil currency" do
-      subject.currency=nil
-      expect(subject).to_not be_valid
+    it "not valid with nil currency" do
+      voucher.currency=nil
+      expect(voucher).to_not be_valid
     end
 
-    it "is not valid without a balance" do
-      subject.balance=nil
-      expect(subject).to_not be_valid
+    it "not valid without a balance" do
+      voucher.balance=nil
+      expect(voucher).to_not be_valid
     end
 
-    it "is not valid without a secret_code" do
-      subject.secret_code=nil
-      expect(subject).to_not be_valid
+    it "not valid without a secret code" do
+      voucher.secret_code=nil
+      expect(voucher).to_not be_valid
     end
 
-    it "is not valid with integer" do
-      subject.secret_code=12345
-      expect(subject).to_not be_valid
+    it "valid with integer" do
+      voucher.secret_code=12345
+      expect(voucher).to be_valid
     end
 end

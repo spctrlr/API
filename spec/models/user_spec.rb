@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# Fails because of belongs_to :user, optional: true
 RSpec.describe User, type: :model do
   subject(:user) { User.create!(
     username: "Test", 
