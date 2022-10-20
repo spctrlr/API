@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-# fails because of voucher model: "belongs_to :user, 'optional: true'"
+# fails with ActiveRecord::InvalidForeignKey:
 RSpec.describe Voucher, type: :model do
   subject { Voucher.create!(
     balance: 250.99, 
